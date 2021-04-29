@@ -30,7 +30,7 @@ object Application extends IOApp.Simple {
   def program[F[_] : Files : Concurrent : Console]: F[Unit] =
     for {
       clients    <- Clients.makeEffect(clientStream)
-      orderBooks <- OrderBooks.makeEffect[F](orderStream, clients)
+      orderBooks <- OrderBooks.makeEffect(orderStream, clients)
       _          <- orderBooks.stream.compile.drain
       _          <- orderBooks.print
       _          <- clients.print
